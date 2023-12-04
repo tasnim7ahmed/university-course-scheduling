@@ -29,12 +29,12 @@
     
     (student_at s101 first_year)
     
-    (unscheduled_90 cse101)
-    (unscheduled_180 cse101)
+    (unscheduled_90_1 cse101)
+    (unscheduled_90_2 cse101)
   )
 
   (:constraints
-    (sometime (scheduled_at_90 cse101 n101))
+    (sometime (scheduled_at_90_1 cse101 n101))
   )
 
   (:goal (and 

@@ -4,14 +4,14 @@
 
   (:predicates 
     (scheduled ?c - course)
-    (scheduled_90 ?c - course)
-    (scheduled_180 ?c - course)
+    (scheduled_90_1 ?c - course)
+    (scheduled_90_2 ?c - course)
 
-    (unscheduled_90 ?c - course)
-    (unscheduled_180 ?c - course)
+    (unscheduled_90_1 ?c - course)
+    (unscheduled_90_2 ?c - course)
   
-    (scheduled_at_90 ?c - course ?r - room)
-    (scheduled_at_180 ?c - course ?r - room)
+    (scheduled_at_90_1 ?c - course ?r - room)
+    (scheduled_at_90_2 ?c - course ?r - room)
 
     (teaches ?t - teacher ?c - course)
     (room_free ?r - room)
@@ -25,15 +25,15 @@
     (course_assigned ?c - course ?y - year)
   )
 
-  (:durative-action schedule_course_90
+  (:durative-action schedule_course_90_1
     :parameters (?c - course ?t - teacher ?y - year ?r - room)
     :duration (= ?duration 90)
     :condition (and 
       (at start (teaches ?t ?c))
       (at start (room_free ?r))
       (at start (course_assigned ?c ?y))
-      (at start (unscheduled_90 ?c))
-      (at start (unscheduled_180 ?c))
+      (at start (unscheduled_90_1 ?c))
+      (at start (unscheduled_90_2 ?c))
 
       (at start (students_available ?y))
       (at start (teacher_available ?t))
@@ -50,13 +50,13 @@
       (at end (teacher_available ?t))
       (at end (students_available ?y))
 
-      (at end (scheduled_90 ?c))
-      (at end (scheduled_at_90 ?c ?r))
-      (at end (not (unscheduled_90 ?c)))
+      (at end (scheduled_90_1 ?c))
+      (at end (scheduled_at_90_1 ?c ?r))
+      (at end (not (unscheduled_90_1 ?c)))
     )
   )
 
-    (:durative-action schedule_course_180
+    (:durative-action schedule_course_90_2
     :parameters (?c - course ?t - teacher ?y - year ?r - room)
     :duration (= ?duration 90)
     :condition (and 
@@ -64,8 +64,8 @@
       (at start (room_free ?r))
       (at start (course_assigned ?c ?y))
 
-      (at start (scheduled_90 ?c))
-      (at start (unscheduled_180 ?c))
+      (at start (scheduled_90_1 ?c))
+      (at start (unscheduled_90_2 ?c))
 
       (at start (students_available ?y))
       (at start (teacher_available ?t))
@@ -82,17 +82,17 @@
       (at end (teacher_available ?t))
       (at end (students_available ?y))
 
-      (at end (scheduled_180 ?c))
-      (at end (scheduled_at_180 ?c ?r))
-      (at end (not (unscheduled_180 ?c)))
+      (at end (scheduled_90_2 ?c))
+      (at end (scheduled_at_90_2 ?c ?r))
+      (at end (not (unscheduled_90_2 ?c)))
     )
   )
   
   (:action schedule_course_done
       :parameters (?c - course)
       :precondition (and 
-        (scheduled_90 ?c)
-        (scheduled_180 ?c)
+        (scheduled_90_1 ?c)
+        (scheduled_90_2 ?c)
       )
       :effect (and 
         (scheduled ?c)
