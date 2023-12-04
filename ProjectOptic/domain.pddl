@@ -4,6 +4,7 @@
 
   (:predicates 
     (scheduled ?c - course)
+
     (scheduled_90_1 ?c - course)
     (scheduled_90_2 ?c - course)
 
@@ -12,6 +13,18 @@
   
     (scheduled_at_90_1 ?c - course ?r - room)
     (scheduled_at_90_2 ?c - course ?r - room)
+
+    (scheduled_60_1 ?c - course)
+    (scheduled_60_2 ?c - course)
+    (scheduled_60_3 ?c - course)
+
+    (unscheduled_60_1 ?c - course)
+    (unscheduled_60_2 ?c - course)
+    (unscheduled_60_3 ?c - course)
+  
+    (scheduled_at_60_1 ?c - course ?r - room)
+    (scheduled_at_60_2 ?c - course ?r - room)
+    (scheduled_at_60_3 ?c - course ?r - room)
 
     (teaches ?t - teacher ?c - course)
     (room_free ?r - room)
@@ -24,6 +37,8 @@
 
     (course_assigned ?c - course ?y - year)
   )
+
+  ; 90 minutes class (2 classes)
 
   (:durative-action schedule_course_90_1
     :parameters (?c - course ?t - teacher ?y - year ?r - room)
@@ -85,19 +100,133 @@
       (at end (scheduled_90_2 ?c))
       (at end (scheduled_at_90_2 ?c ?r))
       (at end (not (unscheduled_90_2 ?c)))
+
+      (at end (scheduled ?c))
+    )
+  )
+    
+  ; 60 minutes class (3 classes)
+    
+  (:durative-action schedule_course_60_1
+    :parameters (?c - course ?t - teacher ?y - year ?r - room)
+    :duration (= ?duration 60)
+    :condition (and 
+      (at start (teaches ?t ?c))
+      (at start (room_free ?r))
+      (at start (course_assigned ?c ?y))
+
+      (at start (unscheduled_90_1 ?c))
+      (at start (unscheduled_90_2 ?c))
+
+      (at start (unscheduled_60_1 ?c))
+      (at start (unscheduled_60_2 ?c))
+      (at start (unscheduled_60_3 ?c))
+
+      (at start (students_available ?y))
+      (at start (teacher_available ?t))
+
+      (at start (teacher_at ?r ?t))
+      (at start (student_at ?r ?y))
+      )
+    :effect (and 
+      (at start (not (room_free ?r)))
+      (at start (not (teacher_available ?t)))
+      (at start (not (students_available ?y)))
+
+      (at end (room_free ?r))
+      (at end (teacher_available ?t))
+      (at end (students_available ?y))
+
+      (at end (scheduled_60_1 ?c))
+      (at end (scheduled_at_60_1 ?c ?r))
+      (at end (not (unscheduled_60_1 ?c)))
+    )
+  )
+
+    (:durative-action schedule_course_60_2
+    :parameters (?c - course ?t - teacher ?y - year ?r - room)
+    :duration (= ?duration 60)
+    :condition (and 
+      (at start (teaches ?t ?c))
+      (at start (room_free ?r))
+      (at start (course_assigned ?c ?y))
+
+      (at start (unscheduled_90_1 ?c))
+      (at start (unscheduled_90_2 ?c))
+
+      (at start (scheduled_60_1 ?c))
+      (at start (unscheduled_60_2 ?c))
+      (at start (unscheduled_60_3 ?c))
+
+      (at start (students_available ?y))
+      (at start (teacher_available ?t))
+
+      (at start (teacher_at ?r ?t))
+      (at start (student_at ?r ?y))
+      )
+    :effect (and 
+      (at start (not (room_free ?r)))
+      (at start (not (teacher_available ?t)))
+      (at start (not (students_available ?y)))
+
+      (at end (room_free ?r))
+      (at end (teacher_available ?t))
+      (at end (students_available ?y))
+
+      (at end (scheduled_60_2 ?c))
+      (at end (scheduled_at_60_2 ?c ?r))
+      (at end (not (unscheduled_60_2 ?c)))
+    )
+  )
+    
+  (:durative-action schedule_course_60_3
+    :parameters (?c - course ?t - teacher ?y - year ?r - room)
+    :duration (= ?duration 60)
+    :condition (and 
+      (at start (teaches ?t ?c))
+      (at start (room_free ?r))
+      (at start (course_assigned ?c ?y))
+
+      (at start (unscheduled_90_1 ?c))
+      (at start (unscheduled_90_2 ?c))
+
+      (at start (scheduled_60_1 ?c))
+      (at start (scheduled_60_2 ?c))
+      (at start (unscheduled_60_3 ?c))
+
+      (at start (students_available ?y))
+      (at start (teacher_available ?t))
+
+      (at start (teacher_at ?r ?t))
+      (at start (student_at ?r ?y))
+      )
+    :effect (and 
+      (at start (not (room_free ?r)))
+      (at start (not (teacher_available ?t)))
+      (at start (not (students_available ?y)))
+
+      (at end (room_free ?r))
+      (at end (teacher_available ?t))
+      (at end (students_available ?y))
+
+      (at end (scheduled_60_3 ?c))
+      (at end (scheduled_at_60_3 ?c ?r))
+      (at end (not (unscheduled_60_3 ?c)))
+
+      (at end (scheduled ?c))
     )
   )
   
-  (:action schedule_course_done
-      :parameters (?c - course)
-      :precondition (and 
-        (scheduled_90_1 ?c)
-        (scheduled_90_2 ?c)
-      )
-      :effect (and 
-        (scheduled ?c)
-      )
-  )
+  ; (:action schedule_course_done
+  ;     :parameters (?c - course)
+  ;     :precondition (and 
+  ;       (scheduled_90_1 ?c)
+  ;       (scheduled_90_2 ?c)
+  ;     )
+  ;     :effect (and 
+  ;       (scheduled ?c)
+  ;     )
+  ; )
   
 
   (:durative-action move_student

@@ -31,10 +31,14 @@
     
     (unscheduled_90_1 cse101)
     (unscheduled_90_2 cse101)
+
+    (unscheduled_60_1 cse101)
+    (unscheduled_60_2 cse101)
+    (unscheduled_60_3 cse101)
   )
 
   (:constraints
-    (sometime (scheduled_at_90_1 cse101 n101))
+    (sometime (scheduled_at_60_1 cse101 n101))
   )
 
   (:goal (and 
