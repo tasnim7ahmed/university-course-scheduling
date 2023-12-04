@@ -26,12 +26,15 @@
     (students_available first_year)
     (course_assigned cse101 first_year)
     (teacher_at n101 t1)
+    
     (student_at s101 first_year)
-    (unscheduled cse101)
+    
+    (unscheduled_90 cse101)
+    (unscheduled_180 cse101)
   )
 
   (:constraints
-    (sometime (scheduled_at cse101 n101))
+    (sometime (scheduled_at_90 cse101 n101))
   )
 
   (:goal (and 
