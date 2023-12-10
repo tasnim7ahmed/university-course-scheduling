@@ -1,4 +1,0 @@
-0.000: (move_teacher t1 n101 s101)  [10.000]
-0.000: (move_student first_year s101 n101)  [20.000]
-0.001: (move_teacher t1 n101 n101)  [10.000]
-20.001: (schedule_course cse101 t1 first_year n101)  [60.000]

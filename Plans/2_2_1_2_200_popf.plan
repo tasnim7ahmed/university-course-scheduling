@@ -1,0 +1,4 @@
+0.000: (move_student first_year n101 s101)  [20.000]
+19.999: (schedule_course_180 cse201 t1 second_year s101)  [180.000]
+200.001: (start_day)  [0.001]
+200.002: (schedule_course_180 cse101 t1 first_year s101)  [180.000]

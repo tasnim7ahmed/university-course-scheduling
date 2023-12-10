@@ -1,0 +1,3 @@
+0.000: (schedule_course_180 cse101 t1 first_year n101)  [180.000]
+200.001: (start_day)  [0.001]
+200.002: (schedule_course_180 cse201 t1 second_year n101)  [180.000]

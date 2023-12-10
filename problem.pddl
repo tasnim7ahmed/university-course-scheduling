@@ -23,12 +23,16 @@
     
     (student_at s101 first_year) (student_at s101 second_year)
     
+    (unscheduled_180 cse101)
+    
     (unscheduled_90_1 cse101)
     (unscheduled_90_2 cse101)
 
     (unscheduled_60_1 cse101)
     (unscheduled_60_2 cse101)
     (unscheduled_60_3 cse101)
+
+    (unscheduled_180 cse201)
 
     (unscheduled_90_1 cse201)
     (unscheduled_90_2 cse201)
@@ -41,13 +45,12 @@
   (:constraints
     (and
     (sometime (scheduled_at_60_1 cse101 n101))
-    (sometime (scheduled_at_90_1 cse201 n101))
+    (sometime (scheduled_at_180 cse201 n101))
     )
   )
 
   (:goal (and 
     (scheduled cse101)
     (scheduled cse201)
-    (nighttime)
   ))
 )
