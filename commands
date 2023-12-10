@@ -1,0 +1,5 @@
+docker run -it --privileged -v %cd%:/root/cisc813 cjmuise/cisc813
+
+optic -T domain.pddl problem.pddl
+
+popf -T domain.pddl problem.pddl

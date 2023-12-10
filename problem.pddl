@@ -1,43 +1,50 @@
-(define (problem university-scheduling-problem)
-  (:domain university-scheduling)
-  
-  (:objects
-    day1 day2 day3 day4 day5 - day
-    slot1 slot2 slot3 slot4 slot5 slot6 - slot
-    course1 course2 - course
-    faculty1 faculty2 - faculty
-    room1 room2 room3 - room
+(define (problem schedule_classes) (:domain schedule)
+  (:objects 
+    cse101 cse201 - course
+    t1 t2 - teacher
+    first_year second_year - year
+    n101 s101 - room
+  )
+  (:init 
+    (nighttime)
+    
+    (at 100.0 (nighttime))
+    (at 100.0 (not(daytime)))
+
+    (teaches t1 cse101) (teaches t2 cse201)
+    (room_free n101) (room_free s101)
+    (teacher_available t1) (teacher_available t2)
+    (students_available first_year) (students_available second_year)
+    (course_assigned cse101 first_year) (course_assigned cse201 second_year)
+    (teacher_at n101 t1) (teacher_at s101 t2)
+    
+    (student_at s101 first_year) (student_at s101 second_year)
+    
+    (unscheduled_90_1 cse101)
+    (unscheduled_90_2 cse101)
+
+    (unscheduled_60_1 cse101)
+    (unscheduled_60_2 cse101)
+    (unscheduled_60_3 cse101)
+
+    (unscheduled_90_1 cse201)
+    (unscheduled_90_2 cse201)
+
+    (unscheduled_60_1 cse201)
+    (unscheduled_60_2 cse201)
+    (unscheduled_60_3 cse201)
   )
 
-  (:init
-    (course-unassigned course1)
-    (course-unassigned course2)
-    (faculty-preference faculty1 day1 slot3)
-    (faculty-preference faculty1 day2 slot1)
-    (faculty-preference faculty2 day1 slot5)
-    (faculty-preference faculty2 day2 slot5)
-    (available room1 day1 slot3)
-    (available room2 day2 slot1)
-    (available room3 day1 slot5)
-    (available room2 day2 slot5)
-
-    (different-days day1 day2)
-    (different-days day2 day1)
-
-    (consecutive-slots slot1 slot2)
-    (consecutive-slots slot3 slot4)
-    (consecutive-slots slot5 slot6)
-
-    (theory-course course1)
-    (theory-course course2)
-    (course-teacher course1 faculty1)
-    (course-teacher course2 faculty2)
-  )
-
-
-  (:goal (and
-    (forall(?course - course)
-      (not(course-unassigned ?course))
+  (:constraints
+    (and
+    (sometime (scheduled_at_60_1 cse101 n101))
+    (sometime (scheduled_at_90_1 cse201 n101))
     )
+  )
+
+  (:goal (and 
+    (scheduled cse101)
+    (scheduled cse201)
+    (nighttime)
   ))
 )
