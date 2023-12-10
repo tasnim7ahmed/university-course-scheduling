@@ -5,6 +5,7 @@
   (:predicates 
     (daytime)
     (nighttime)
+
     (scheduled ?c - course)
 
     (scheduled_90_1 ?c - course)
@@ -38,6 +39,10 @@
     (teacher_at ?r - room ?t - teacher)
 
     (course_assigned ?c - course ?y - year)
+  )
+
+  (:functions
+    (distance ?from - room ?to - room)
   )
 
   ; 90 minutes class (2 classes)
@@ -226,7 +231,7 @@
   
   (:durative-action move_student
     :parameters (?y - year ?from - room ?to - room)
-    :duration (= ?duration 20)
+    :duration (= ?duration (*2 (distance ?from ?to)))
     :condition (and 
       (over all (daytime))
       (at start (student_at ?from ?y))
@@ -242,7 +247,7 @@
 
   (:durative-action move_teacher
     :parameters (?t - teacher ?from - room ?to - room)
-    :duration (= ?duration 10)
+    :duration (= ?duration (distance ?from ?to))
     :condition (and 
       (over all (daytime))
       (at start (teacher_at ?from ?t))

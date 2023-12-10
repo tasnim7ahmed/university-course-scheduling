@@ -11,6 +11,9 @@
     (at 100.0 (nighttime))
     (at 100.0 (not(daytime)))
 
+    (= (distance n101 s101) 10)
+    (= (distance s101 n101) 10)
+
     (teaches t1 cse101) (teaches t2 cse201)
     (room_free n101) (room_free s101)
     (teacher_available t1) (teacher_available t2)
