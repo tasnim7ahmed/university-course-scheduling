@@ -1,85 +1,91 @@
-# University Course Scheduling
-
-## Course Information
-
-This is the term project for the "CISC 813 - Automated Planning" course at Queen's University.
-
-- Semester: Fall 2023
-- Instructor: Christian MUISE, Assistant Professor, School of Computing, Queen's University
-
-Student Information:
-
-- Name: Tasnim Ahmed
-- Email: tasnim.ahmed@queensu.ca
-- Group: 7
+# Automated University Course Scheduling
 
 ## Project Description
+This project aims to automate the scheduling of university courses using PDDL (Planning Domain Definition Language) and temporal planners such as OPTIC and POP-F. It's designed for undergraduate students across different academic years. The scheduling process considers various constraints, including instructor assignments, room availability, and course durations.
 
-This project aims to solve the complex problem of scheduling university courses. The university operates five days a week (Monday - Friday), with each day divided into six slots of 1 hour and 15 minutes, labeled as slots 1-6.
+## Features
+- **Course Assignment**: Each year's students are required to take specific courses.
+- **Instructor Assignment**: Instructors are assigned to courses.
+- **Room Scheduling**: Courses are scheduled in available rooms.
+- **Time Management**: Adheres to the daily operational time limit and weekly course durations.
 
-A theory course requires two slots each week, but these slots cannot be on the same day. Lab courses occur weekly and consume two consecutive slots on a given day. Each course, whether theory or lab, has an assigned faculty member who has specific slot preferences.
+## Domain Description (`domain.pddl`)
+- **Types**: Includes `course`, `teacher`, `year`, `room`.
+- **Predicates**: Key predicates like `daytime`, `nighttime`, `scheduled`, `room_free`, etc.
+- **Functions**: Includes a `distance` function to calculate distances between rooms.
+- **Actions**: 
+  - `schedule_course_*`: Schedules courses of different durations.
+  - `move_student` and `move_teacher`: Models the movement between rooms.
+  - `start_day` and `end_day`: Manages the transition between daytime and nighttime.
 
-Classroom availability is a constraint as a course cannot be assigned to a classroom in a slot that is already occupied. Additionally, students need to move around campus to attend their classes, and the time required for this movement must be accounted for in the schedule. Therefore, the proximity of lecture halls (close vs. far) becomes an important factor.
+## Problem Description (`problem.pddl`)
+- **Objects**: Lists courses, teachers, years, and rooms.
+- **Initial State**: Sets the initial conditions including room and teacher assignments, course-year assignments, and initial room distances.
+- **Goals**: The primary goal is to schedule all required courses.
+- **Constraints**: Uses `sometime` to ensure courses are appropriately scheduled to the preferred rooms.
 
-The task of the planner is to generate a solution that specifies which course will be held in which room on which day and in what slot of the day, ensuring that students have sufficient time to walk between their classes.
+## Planning with OPTIC and POP-F
+1. **Set up Domain and Problem Files**: Adjust `domain.pddl` and `problem.pddl` as necessary.
+2. **Execute the Planner**: Use the command `optic -T domain.pddl problem.pddl` or `popf -T domain.pddl problem.pddl`.
 
-## Project Status
+## Usage Instructions
+1. **Edit PDDL Files**: Modify the domain and problem files according to your scheduling requirements.
+2. **Run the Planner**: Use OPTIC or POP-F with the provided domain and problem files.
+3. **Evaluate the Output**: Check the generated plan to ensure all courses are scheduled according to the constraints.
 
-Please note that this project is currently under development and not yet complete. The current solution does not consider the student aspect of the constraints like which student is taking which course and the distance between halls. These constraints will be added in an iterative process shortly.
+## Result Analysis
 
-## Solution
+This section presents a comprehensive analysis of the outcomes from experimental runs using the OPTIC and POP-F planning algorithms in the context of university course scheduling. The following table showcases the results under various parameters:
 
-The problem is solved using Planning Domain Definition Language (PDDL). The project consists of two files - `problem.pddl` and `domain.pddl`.
+### Comparative Analysis of OPTIC and POP-F
 
-### Domain File (`domain.pddl`)
+| Planner | # Course | # Year | # Instructor | # Room | Day-Night Shift | Plan Duration | Plan Length | Time to Find | States Evaluated | Preference Satisfied |
+|---------|----------|--------|--------------|--------|-----------------|---------------|-------------|--------------|------------------|----------------------|
+| OPTIC   | 2        | 2      | 1            | 1      |                 | 380.004       | 5           | 0.13         | 103              | ✅                    |
+| OPTIC   | 2        | 2      | 1            | 2      |                 | 580.002       | 9           | 203.36       | 175865           | ✅                    |
+| OPTIC   | 2        | 2      | 2            | 2      | 200             | 460.005       | 8           | 23.81        | 21631            | ✅                    |
+| OPTIC   | 2        | 2      | 2*           | 2      |                 | 490.007       | 9           | 72.4         | 67809            | ✅                    |
+| OPTIC   | 3        | 2      | 2            | 2      |                 | N/A           | N/A         | N/A          | N/A              | N/A                   |
+| POP-F   | 2        | 2      | 1            | 1      |                 | 380.002       | 3           | 0.08         | 20               | ❌                    |
+| POP-F   | 2        | 2      | 1            | 2      |                 | 380.002       | 4           | 0.08         | 33               | ❌                    |
+| POP-F   | 2        | 2      | 2            | 2      | 200             | 460.003       | 5           | 0.08         | 37               | ❌                    |
+| POP-F   | 2        | 2      | 2*           | 2      |                 | 280.003       | 5           | 0.07         | 68               | ❌                    |
+| POP-F   | 3        | 2      | 2            | 2      |                 | 640.004       | 6           | 0.09         | 102              | ❌                    |
 
-The domain file defines the types, predicates, and actions used in our problem.
+*An asterisk indicates instances where, despite the presence of two instructors, a single instructor was responsible for conducting both courses.*
 
-#### Types
+#### Insights and Observations:
+- **Planner Performance**: OPTIC generally required more time and evaluated more states but consistently satisfied preference criteria. POP-F was faster but failed in satisfying preferences.
+- **Complexity Impact**: Increased complexity in terms of courses, instructors, and rooms resulted in longer planning durations and more evaluated states, especially noticeable with OPTIC.
+- **Day-Night Shifts**: The day-night cycle contributed to planning complexity.
+- **Limitations**: In highly complex scenarios (e.g., 3 courses, 2 years, 2 rooms), OPTIC did not yield a solution within a reasonable time, highlighting limitations in handling very complex scheduling tasks.
 
-- `day`
-- `slot`
-- `course`
-- `faculty`
-- `room`
 
-#### Predicates
+The experimental results underscore the effectiveness of OPTIC in managing complex scheduling scenarios with preference constraints, albeit with higher computational requirements. POP-F's speed advantage makes it suitable for simpler scenarios where preference satisfaction is less critical.
 
-- `available`
-- `assigned`
-- `theory-course`
-- `lab-course`
-- `faculty-preference`
-- `different-days`
-- `consecutive-slots`
-- `course-unassigned`
-- `course-teacher`
+## Sample Scenario
+In this university course scheduling scenario, the initial setup begins at nighttime, with two rooms (`N 101` and `S 101`) placed `10` units apart. Teachers `T1` and `T2` are assigned to courses `CSE 101` and `CSE 201`, respectively, with both teachers and all first and second-year students marked as available. The students and teacher `T2` are located in room `S 101`, while teacher `T1` is in `N 101`. All courses, `CSE 101` and `CSE 201`, across various session lengths, are initially unscheduled. The goal is to successfully schedule these courses within specific spatial and temporal constraints and preferences. Preferences within this setup dictate that `CSE 101` should have a `60`-minute session in `N 101`, and `CSE 201`, a `180`-minute session, also in `N 101`.
 
-#### Actions
+### Plan Obtained Using OPTIC Planner
+```
+0.000: (start_day) [0.001]
+79.999: (move_student first_year s101 n101) [20.000]
+100.001: (start_day) [0.001]
+100.002: (schedule_course_60_1 cse101 t1 first_year n101) [60.000]
+160.003: (schedule_course_60_2 cse101 t1 first_year n101) [60.000]
+220.004: (schedule_course_60_3 cse101 t1 first_year n101) [60.000]
+280.005: (move_student second_year s101 n101) [20.000]
+300.006: (move_teacher t2 s101 n101) [10.000]
+310.007: (schedule_course_180 cse201 t2 second_year n101) [180.000]
+```
+### Plan Obtained Using POP-F Planner
+```
+0.000: (start_day)  [0.001]
+79.999: (move_student first_year s101 n101)  [20.000]
+100.001: (start_day)  [0.001]
+100.002: (schedule_course_180 cse201 t2 second_year s101)  [180.000]
+100.003: (schedule_course_180 cse101 t1 first_year n101)  [180.000]
+```
 
-- `assign-course-theory`
-- `assign-course-lab`
-
-### Problem File (`problem.pddl`)
-
-The problem file defines the objects, initial state, and goal state of our problem.
-
-#### Objects
-
-Days: `day1`, `day2`, `day3`, `day4`, `day5`  
-Slots: `slot1`, `slot2`, `slot3`, `slot4`, `slot5`, `slot6`  
-Courses: `course1`, `course2`  
-Faculty: `faculty1`, `faculty2`  
-Rooms: `room1`, `room2`, `room3`
-
-#### Initial State
-
-The initial state includes faculty preferences for certain days and slots, room availability for certain days and slots, different days, consecutive slots, course types (theory or lab), and course teachers.
-
-#### Goal State
-
-The goal state is that all courses are assigned (i.e., no course is unassigned).
-
-## How to Run
-
-To run this project, you can use `editor.planning.domains`, an online planner website.
+## Conclusion
+This project showcases the use of automated planning in educational settings. It demonstrates the effectiveness of PDDL and temporal planners in solving complex, real-world scheduling problems.
