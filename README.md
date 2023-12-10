@@ -1,7 +1,7 @@
 # Automated University Course Scheduling
 
 ## Project Description
-This project aims to automate the scheduling of university courses using PDDL (Planning Domain Definition Language) and temporal planners such as OPTIC and POP-F. It's designed for undergraduate students across different academic years. The scheduling process considers various constraints, including instructor assignments, room availability, and course durations.
+This project aims to automate the scheduling of university courses using PDDL (Planning Domain Definition Language) and temporal planners such as OPTIC [1] and POP-F [2]. It's designed for undergraduate students across different academic years. The scheduling process considers various constraints, including instructor assignments, room availability, and course durations.
 
 ## Features
 - **Course Assignment**: Each year's students are required to take specific courses.
@@ -89,3 +89,9 @@ In this university course scheduling scenario, the initial setup begins at night
 
 ## Conclusion
 This project showcases the use of automated planning in educational settings. It demonstrates the effectiveness of PDDL and temporal planners in solving complex, real-world scheduling problems.
+
+## References
+
+1. Benton, J.R., Coles, A.J., & Coles, A. (2012). Temporal Planning with Preferences and Time-Dependent Continuous Costs. Proceedings of the International Conference on Automated Planning and Scheduling.
+2. Coles, A.J., Coles, A., Fox, M., & Long, D. (2010). Forward-Chaining Partial-Order Planning. International Conference on Automated Planning and Scheduling.
+
