@@ -2,7 +2,7 @@
   (:objects 
     cse101 cse201 - course
     t1 t2 - teacher
-    s1 s2 - student
+    s1 s2 s3 - student
     n101 s101 - room
   )
   (:init 
@@ -17,11 +17,11 @@
     (teaches t1 cse101) (teaches t2 cse201)
     (room_free n101) (room_free s101)
     (teacher_available t1) (teacher_available t2)
-    (students_available s1) (students_available s2)
-    (must_take cse101 s1) (must_take cse201 s2)
+    (students_available s1) (students_available s2) (students_available s3)
+    (must_take cse101 s1) (must_take cse101 s2) (must_take cse201 s2) (must_take cse201 s3)
     (teacher_at n101 t1) (teacher_at s101 t2)
     
-    (student_at s101 s1) (student_at s101 s2)
+    (student_at s101 s1) (student_at s101 s2) (student_at n101 s3)
     
     (unscheduled_180 cse101)
     

@@ -50,13 +50,13 @@
   )
 
   (:durative-action schedule_course_180
-    :parameters (?c - course ?t - teacher ?s - student ?r - room)
+    :parameters (?c - course ?t - teacher ?s1 - student ?s2 - student ?r - room)
     :duration (= ?duration 180)
     :condition (and 
       (over all (daytime))
       (at start (teaches ?t ?c))
       (at start (room_free ?r))
-      (at start (must_take ?c ?s))
+      (at start (must_take ?c ?s1)) (at start (must_take ?c ?s2))
 
       (at start (unscheduled_180 ?c))
 
@@ -67,20 +67,20 @@
       (at start (unscheduled_90_1 ?c))
       (at start (unscheduled_90_2 ?c))
 
-      (at start (students_available ?s))
+      (at start (students_available ?s1)) (at start (students_available ?s2))
       (at start (teacher_available ?t))
 
       (over all (teacher_at ?r ?t))
-      (over all (student_at ?r ?s))
+      (over all (student_at ?r ?s1)) (over all (student_at ?r ?s2))
       )
     :effect (and 
       (at start (not (room_free ?r)))
       (at start (not (teacher_available ?t)))
-      (at start (not (students_available ?s)))
+      (at start (not (students_available ?s1))) (at start (not (students_available ?s2)))
 
       (at end (room_free ?r))
       (at end (teacher_available ?t))
-      (at end (students_available ?s))
+      (at end (students_available ?s1)) (at end (students_available ?s2))
 
       (at end (scheduled_180 ?c))
       (at end (scheduled_at_180 ?c ?r))
@@ -93,13 +93,13 @@
   ; 90 minutes class (2 classes)
 
   (:durative-action schedule_course_90_1
-    :parameters (?c - course ?t - teacher ?s - student ?r - room)
+    :parameters (?c - course ?t - teacher ?s1 - student ?s2 - student ?r - room)
     :duration (= ?duration 90)
     :condition (and 
       (over all (daytime))
       (at start (teaches ?t ?c))
       (at start (room_free ?r))
-      (at start (must_take ?c ?s))
+      (at start (must_take ?c ?s1)) (at start (must_take ?c ?s2))
 
       (at start (unscheduled_180 ?c))
 
@@ -110,20 +110,20 @@
       (at start (unscheduled_90_1 ?c))
       (at start (unscheduled_90_2 ?c))
 
-      (at start (students_available ?s))
+      (at start (students_available ?s1)) (at start (students_available ?s2))
       (at start (teacher_available ?t))
 
       (over all (teacher_at ?r ?t))
-      (over all (student_at ?r ?s))
+      (over all (student_at ?r ?s1)) (over all (student_at ?r ?s2))
       )
     :effect (and 
       (at start (not (room_free ?r)))
       (at start (not (teacher_available ?t)))
-      (at start (not (students_available ?s)))
+      (at start (not (students_available ?s1))) (at start (not (students_available ?s2)))
 
       (at end (room_free ?r))
       (at end (teacher_available ?t))
-      (at end (students_available ?s))
+      (at end (students_available ?s1)) (at end (students_available ?s2))
 
       (at end (scheduled_90_1 ?c))
       (at end (scheduled_at_90_1 ?c ?r))
@@ -132,13 +132,13 @@
   )
 
     (:durative-action schedule_course_90_2
-    :parameters (?c - course ?t - teacher ?s - student ?r - room)
+    :parameters (?c - course ?t - teacher ?s1 - student ?s2 - student ?r - room)
     :duration (= ?duration 90)
     :condition (and 
       (over all (daytime))
       (at start (teaches ?t ?c))
       (at start (room_free ?r))
-      (at start (must_take ?c ?s))
+      (at start (must_take ?c ?s1)) (at start (must_take ?c ?s2))
 
       (at start (scheduled_90_1 ?c))
 
@@ -148,20 +148,20 @@
       (at start (unscheduled_60_3 ?c))
       (at start (unscheduled_90_2 ?c))
 
-      (at start (students_available ?s))
+      (at start (students_available ?s1)) (at start (students_available ?s2))
       (at start (teacher_available ?t))
 
       (over all (teacher_at ?r ?t))
-      (over all (student_at ?r ?s))
+      (over all (student_at ?r ?s1)) (over all (student_at ?r ?s2))
       )
     :effect (and 
       (at start (not (room_free ?r)))
       (at start (not (teacher_available ?t)))
-      (at start (not (students_available ?s)))
+      (at start (not (students_available ?s1))) (at start (not (students_available ?s2)))
 
       (at end (room_free ?r))
       (at end (teacher_available ?t))
-      (at end (students_available ?s))
+      (at end (students_available ?s1)) (at end (students_available ?s2))
 
       (at end (scheduled_90_2 ?c))
       (at end (scheduled_at_90_2 ?c ?r))
@@ -174,13 +174,13 @@
   ; 60 minutes class (3 classes)
     
   (:durative-action schedule_course_60_1
-    :parameters (?c - course ?t - teacher ?s - student ?r - room)
+    :parameters (?c - course ?t - teacher ?s1 - student ?s2 - student ?r - room)
     :duration (= ?duration 60)
     :condition (and 
       (over all (daytime))
       (at start (teaches ?t ?c))
       (at start (room_free ?r))
-      (at start (must_take ?c ?s))
+      (at start (must_take ?c ?s1)) (at start (must_take ?c ?s2))
 
       (at start (unscheduled_180 ?c))
 
@@ -191,20 +191,20 @@
       (at start (unscheduled_60_2 ?c))
       (at start (unscheduled_60_3 ?c))
 
-      (at start (students_available ?s))
+      (at start (students_available ?s1)) (at start (students_available ?s2))
       (at start (teacher_available ?t))
 
       (over all (teacher_at ?r ?t))
-      (over all (student_at ?r ?s))
+      (over all (student_at ?r ?s1)) (over all (student_at ?r ?s2))
       )
     :effect (and 
       (at start (not (room_free ?r)))
       (at start (not (teacher_available ?t)))
-      (at start (not (students_available ?s)))
+      (at start (not (students_available ?s1))) (at start (not (students_available ?s2)))
 
       (at end (room_free ?r))
       (at end (teacher_available ?t))
-      (at end (students_available ?s))
+      (at end (students_available ?s1)) (at end (students_available ?s2))
 
       (at end (scheduled_60_1 ?c))
       (at end (scheduled_at_60_1 ?c ?r))
@@ -213,13 +213,13 @@
   )
 
     (:durative-action schedule_course_60_2
-    :parameters (?c - course ?t - teacher ?s - student ?r - room)
+    :parameters (?c - course ?t - teacher ?s1 - student ?s2 - student ?r - room)
     :duration (= ?duration 60)
     :condition (and 
       (over all (daytime))
       (at start (teaches ?t ?c))
       (at start (room_free ?r))
-      (at start (must_take ?c ?s))
+      (at start (must_take ?c ?s1)) (at start (must_take ?c ?s2))
 
       (at start (unscheduled_180 ?c))
       (at start (unscheduled_90_1 ?c))
@@ -229,20 +229,20 @@
       (at start (unscheduled_60_2 ?c))
       (at start (unscheduled_60_3 ?c))
 
-      (at start (students_available ?s))
+      (at start (students_available ?s1)) (at start (students_available ?s2))
       (at start (teacher_available ?t))
 
       (over all (teacher_at ?r ?t))
-      (over all (student_at ?r ?s))
+      (over all (student_at ?r ?s1)) (over all (student_at ?r ?s2))
       )
     :effect (and 
       (at start (not (room_free ?r)))
       (at start (not (teacher_available ?t)))
-      (at start (not (students_available ?s)))
+      (at start (not (students_available ?s1))) (at start (not (students_available ?s2)))
 
       (at end (room_free ?r))
       (at end (teacher_available ?t))
-      (at end (students_available ?s))
+      (at end (students_available ?s1)) (at end (students_available ?s2))
 
       (at end (scheduled_60_2 ?c))
       (at end (scheduled_at_60_2 ?c ?r))
@@ -251,13 +251,13 @@
   )
     
   (:durative-action schedule_course_60_3
-    :parameters (?c - course ?t - teacher ?s - student ?r - room)
+    :parameters (?c - course ?t - teacher ?s1 - student ?s2 - student ?r - room)
     :duration (= ?duration 60)
     :condition (and 
       (over all (daytime))
       (at start (teaches ?t ?c))
       (at start (room_free ?r))
-      (at start (must_take ?c ?s))
+      (at start (must_take ?c ?s1)) (at start (must_take ?c ?s2))
 
       (at start (unscheduled_180 ?c))
       (at start (unscheduled_90_1 ?c))
@@ -267,20 +267,20 @@
       (at start (scheduled_60_2 ?c))
       (at start (unscheduled_60_3 ?c))
 
-      (at start (students_available ?s))
+      (at start (students_available ?s1)) (at start (students_available ?s2))
       (at start (teacher_available ?t))
 
       (over all (teacher_at ?r ?t))
-      (over all (student_at ?r ?s))
+      (over all (student_at ?r ?s1)) (over all (student_at ?r ?s2))
       )
     :effect (and 
       (at start (not (room_free ?r)))
       (at start (not (teacher_available ?t)))
-      (at start (not (students_available ?s)))
+      (at start (not (students_available ?s1))) (at start (not (students_available ?s2)))
 
       (at end (room_free ?r))
       (at end (teacher_available ?t))
-      (at end (students_available ?s))
+      (at end (students_available ?s1)) (at end (students_available ?s2))
 
       (at end (scheduled_60_3 ?c))
       (at end (scheduled_at_60_3 ?c ?r))
