@@ -3,6 +3,10 @@
 ## Project Description
 This project aims to automate the scheduling of university courses using PDDL (Planning Domain Definition Language) and temporal planners such as OPTIC [1] and POP-F [2]. It's designed for undergraduate students across different academic years. The scheduling process considers various constraints, including instructor assignments, room availability, and course durations.
 
+## Branches
+**Main Branch**: This branch focuses on a system where courses are non-overlapping for each student year, section, or batch. The numerical results in the ReadME document or the report are based on this branch.
+**Open-Credit Branch**: In this branch, any student can choose any course, subject to a set limit on enrollment.
+
 ## Features
 - **Course Assignment**: Each year's students are required to take specific courses.
 - **Instructor Assignment**: Instructors are assigned to courses.
